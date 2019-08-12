@@ -1,12 +1,13 @@
 # GoEasy
-an easy gin example for golang beginner, which can help build web app very quickly.
 
-### Environmental requirements
+基于Gin的简单整合框架，帮助初学者快速搭建web应用
+
+### 环境
 
 - Go
 - MongoDB
 
-### Features
+### 特性
 
 - RESTful API
 - Gin
@@ -14,13 +15,13 @@ an easy gin example for golang beginner, which can help build web app very quick
 - Jwt
 - Conf configurable
 
-### Install
+### 安装
 
 ```bash
 $ git clone git@github.com:WillXu24/GoEasy.git
 ```
 
-### Configuration
+### 配置
 
 ```ini
 MONGODB_URI="mongodb://localhost:27017"
@@ -32,7 +33,7 @@ PORT=":8080"
 GIN_MODE="debug"
 ```
 
-### Run
+### 运行
 
 ```bash
 $ cd GoEasy
@@ -53,9 +54,9 @@ $ go run main.go
 
 ```
 
-### API Doc
+### API 文档
 
-#### Json Response
+#### json响应格式
 
 ```json
 {
@@ -65,27 +66,27 @@ $ go run main.go
 }
 ```
 
-#### User Author
+#### 用户身份认证
 
-- Method： JSON Web Token
+- 方式：JSON Web Token
 
-- How： put token into HTTP  header of Authorization and begin with Bearer
+- 备注：将token放入http头的Authorization字段，并使用Bearer开头
 
-- example：
+- 举例：
 
-  example token
+  若token为
 
   ```
   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjU0NTk1NTEsImlkIjoiNWQ0ZWVlYjdhNTBmYTMxMmU0ODYyYzdiIiwib3JpZ19pYXQiOjE1NjU0NTU5NTF9.gU_OsqXlAcFWS5qN7sbGVqQdrFVOkAUOoPffTH6q9sk
   ```
 
-  HTTP header
+  则HTTP头为
 
   ```
   Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjU0NTk1NTEsImlkIjoiNWQ0ZWVlYjdhNTBmYTMxMmU0ODYyYzdiIiwib3JpZ19pYXQiOjE1NjU0NTU5NTF9.gU_OsqXlAcFWS5qN7sbGVqQdrFVOkAUOoPffTH6q9sk
   ```
 
-#### User Register： POST    /user
+#### 用户注册： POST    /user
 
 request
 
@@ -114,7 +115,7 @@ response
 }
 ```
 
-#### User Login： POST   /user/login
+#### 用户登录： POST   /user/login
 
 request
 
@@ -123,6 +124,7 @@ request
     "username":"13011112222",
     "password":"123",
 }
+
 ```
 
 response
@@ -140,9 +142,10 @@ response
     "Error": "error",
     "Data": Null
 }
+
 ```
 
-#### Get Profile： GET   /user/:id
+#### 查看资料： GET   /user/:id
 
 request  `:id`
 
@@ -156,8 +159,8 @@ response
     "Data": {
         "Id": "5d50dbfddb518a0bdfa4b818",
         "Username": "user1",
-        "Nickname": "jack",
-        "Introduction": "I'm Jack！",
+        "Nickname": "沙雕本雕",
+        "Introduction": "说点什么介绍自己吧！",
         "TotalCollCount": 0,
         "TotalFollowCount": 0,
         "CreateTime": 1565580285
@@ -169,11 +172,12 @@ response
     "Error": "error",
     "Data": Null
 }
+
 ```
 
 
 
-#### My Profile：  GET   /me
+#### 我的资料：  GET   /me
 
 no request 
 
@@ -187,8 +191,8 @@ response
     "Data": {
         "Id": "5d50dbfddb518a0bdfa4b818",
         "Username": "user1",
-        "Nickname": "jack",
-        "Introduction": "I'm Jack！",
+        "Nickname": "沙雕本雕",
+        "Introduction": "说点什么介绍自己吧！",
         "TotalCollCount": 0,
         "TotalFollowCount": 0,
         "CreateTime": 1565580285
@@ -200,9 +204,10 @@ response
     "Error": "error",
     "Data": Null
 }
+
 ```
 
-#### Update My Profile： POST      /me
+#### 修改资料： POST      /me
 
 request
 
@@ -212,6 +217,7 @@ request
     "password":"123",
     "introduction":"apple"
 }
+
 ```
 
 response
@@ -229,6 +235,7 @@ response
     "Error": "error",
     "Data": Null
 }
+
 ```
 
 #### 
