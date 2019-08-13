@@ -1,6 +1,7 @@
-![cover.png](https://i.loli.net/2019/08/13/MBszE7ar9mhbkTU.png)
 
-[![GitHub stars](https://img.shields.io/github/stars/WillXu24/GoEasy)](https://github.com/WillXu24/GoEasy/stargazers)[![GitHub forks](https://img.shields.io/github/forks/WillXu24/GoEasy)](https://github.com/WillXu24/GoEasy/network)[![GitHub issues](https://img.shields.io/github/issues/WillXu24/GoEasy)](https://github.com/WillXu24/GoEasy/issues)[![GitHub license](https://img.shields.io/github/license/WillXu24/GoEasy)](https://github.com/WillXu24/GoEasy)
+![cover.png](https://i.loli.net/2019/08/13/k46WnDILMwutj9s.png)
+
+​												[![GitHub stars](https://img.shields.io/github/stars/WillXu24/GoEasy)](https://github.com/WillXu24/GoEasy/stargazers) [![GitHub forks](https://img.shields.io/github/forks/WillXu24/GoEasy)](https://github.com/WillXu24/GoEasy/network) [![GitHub issues](https://img.shields.io/github/issues/WillXu24/GoEasy)](https://github.com/WillXu24/GoEasy/issues) [![GitHub license](https://img.shields.io/github/license/WillXu24/GoEasy)](https://github.com/WillXu24/GoEasy)	
 
 > an easy gin example for golang beginner, which can help build web app very quickly.
 
