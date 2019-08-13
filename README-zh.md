@@ -59,9 +59,16 @@ $ go run main.go
 #### json响应格式
 
 ```json
+//成功
 {
-    "Success": true/false,
+    "Success": true,
     "Error": "错误信息",
+    "Data": ""
+}
+//失败
+{
+    "Success": false,
+    "Error": "",
     "Data": "响应数据"
 }
 ```
@@ -107,12 +114,6 @@ response
     "Error": "",
     "Data": "register success"
 }
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
-}
 ```
 
 #### 用户登录： POST   /user/login
@@ -134,15 +135,8 @@ response
 {
     "Success": true,
     "Error": "",
-    "Data": eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjU0NTk1NTEsImlkIjoiNWQ0ZWVlYjdhNTBmYTMxMmU0ODYyYzdiIiwib3JpZ19pYXQiOjE1NjU0NTU5NTF9.gU_OsqXlAcFWS5qN7sbGVqQdrFVOkAUOoPffTH6q9sk
+    "Data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjU0NTk1NTEsImlkIjoiNWQ0ZWVlYjdhNTBmYTMxMmU0ODYyYzdiIiwib3JpZ19pYXQiOjE1NjU0NTU5NTF9.gU_OsqXlAcFWS5qN7sbGVqQdrFVOkAUOoPffTH6q9sk"
 }
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
-}
-
 ```
 
 #### 查看资料： GET   /user/:id
@@ -166,13 +160,6 @@ response
         "CreateTime": 1565580285
     }
 }
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
-}
-
 ```
 
 
@@ -198,13 +185,6 @@ response
         "CreateTime": 1565580285
     }
 }
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
-}
-
 ```
 
 #### 修改资料： POST      /me
@@ -229,13 +209,4 @@ response
     "Error": "",
     "Data": "update success"
 }
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
-}
-
 ```
-
-#### 

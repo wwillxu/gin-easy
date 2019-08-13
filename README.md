@@ -1,6 +1,8 @@
 # GoEasy
 an easy gin example for golang beginner, which can help build web app very quickly.
 
+[中文文档](https://github.com/WillXu24/GoEasy/blob/master/README-zh.md)
+
 ### Environmental requirements
 
 - Go
@@ -58,10 +60,17 @@ $ go run main.go
 #### Json Response
 
 ```json
+//success
 {
-    "Success": true/false,
-    "Error": "错误信息",
-    "Data": "响应数据"
+    "Success": true,
+    "Error": "",
+    "Data": "response data"
+}
+//fail
+{
+    "Success": false,
+    "Error": "errer response",
+    "Data": NULL 
 }
 ```
 
@@ -106,12 +115,6 @@ response
     "Error": "",
     "Data": "register success"
 }
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
-}
 ```
 
 #### User Login： POST   /user/login
@@ -132,13 +135,7 @@ response
 {
     "Success": true,
     "Error": "",
-    "Data": eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjU0NTk1NTEsImlkIjoiNWQ0ZWVlYjdhNTBmYTMxMmU0ODYyYzdiIiwib3JpZ19pYXQiOjE1NjU0NTU5NTF9.gU_OsqXlAcFWS5qN7sbGVqQdrFVOkAUOoPffTH6q9sk
-}
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
+    "Data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjU0NTk1NTEsImlkIjoiNWQ0ZWVlYjdhNTBmYTMxMmU0ODYyYzdiIiwib3JpZ19pYXQiOjE1NjU0NTU5NTF9.gU_OsqXlAcFWS5qN7sbGVqQdrFVOkAUOoPffTH6q9sk"
 }
 ```
 
@@ -162,12 +159,6 @@ response
         "TotalFollowCount": 0,
         "CreateTime": 1565580285
     }
-}
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
 }
 ```
 
@@ -194,12 +185,6 @@ response
         "CreateTime": 1565580285
     }
 }
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
-}
 ```
 
 #### Update My Profile： POST      /me
@@ -223,12 +208,4 @@ response
     "Error": "",
     "Data": "update success"
 }
-//fail
-{
-    "Success": false,
-    "Error": "error",
-    "Data": Null
-}
 ```
-
-#### 
