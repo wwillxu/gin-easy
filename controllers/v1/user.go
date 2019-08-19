@@ -48,12 +48,12 @@ func UserProfileHandler(c *gin.Context) {
 	var id string
 	id = c.Param("id")
 	// get profile
-	profile,err:=service.GetProfile(id)
-	if err!=nil{
-		c.JSON(200,views.ErrRes(e.ErrorUsernameNotExist))
+	profile, err := service.GetProfile(id)
+	if err != nil {
+		c.JSON(200, views.ErrRes(e.ErrorUsernameNotExist))
 		return
 	}
-	c.JSON(200,views.SuccessRes(profile))
+	c.JSON(200, views.SuccessRes(profile))
 
 }
 
@@ -61,19 +61,19 @@ func UserProfileHandler(c *gin.Context) {
 func MyProfileHandler(c *gin.Context) {
 	// get uid
 	var uid string
-	if id, err := c.Get("id");!err {
+	if id, err := c.Get("id"); !err {
 		c.JSON(200, views.ErrRes(e.ErrorGetUID))
 		return
-	}else {
+	} else {
 		uid = fmt.Sprintf("%v", id)
 	}
 	// get profile
-	profile,err:=service.GetProfile(uid)
-	if err!=nil{
-		c.JSON(200,views.ErrRes(e.Error))
+	profile, err := service.GetProfile(uid)
+	if err != nil {
+		c.JSON(200, views.ErrRes(e.Error))
 		return
 	}
-	c.JSON(200,views.SuccessRes(profile))
+	c.JSON(200, views.SuccessRes(profile))
 }
 
 // update user profile
@@ -86,16 +86,16 @@ func UpdateProfileHandler(c *gin.Context) {
 	}
 	// get uid
 	var uid string
-	if id, err := c.Get("id");!err {
+	if id, err := c.Get("id"); !err {
 		c.JSON(200, views.ErrRes(e.ErrorGetUID))
 		return
-	}else {
+	} else {
 		uid = fmt.Sprintf("%v", id)
 	}
 	// update service
-	if err:=updateUser.Update(uid);err!=e.Success{
-		c.JSON(200,views.ErrRes(err))
+	if err := updateUser.Update(uid); err != e.Success {
+		c.JSON(200, views.ErrRes(err))
 		return
 	}
-	c.JSON(200,views.SuccessRes("update success"))
+	c.JSON(200, views.SuccessRes("update success"))
 }

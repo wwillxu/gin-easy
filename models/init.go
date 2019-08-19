@@ -9,7 +9,7 @@ import (
 
 var DB *gorm.DB
 
-func DatabaseInit(uri string)  {
+func DatabaseInit(uri string) {
 	db, err := gorm.Open("mysql", uri)
 	if err != nil {
 		log.Fatal("failed to connect database")
@@ -19,7 +19,7 @@ func DatabaseInit(uri string)  {
 	db.DB().SetMaxOpenConns(100)
 	db.DB().SetConnMaxLifetime(time.Second * 30)
 	//
-	if err:=db.HasTable(&User{});!err{
+	if err := db.HasTable(&User{}); !err {
 		db.CreateTable(&User{})
 	}
 	DB = db

@@ -7,9 +7,9 @@ import (
 	"gopkg.in/go-playground/validator.v8"
 )
 
-func BindCheck(c *gin.Context,bindValue interface{}) int{
+func BindCheck(c *gin.Context, bindValue interface{}) int {
 	err := c.ShouldBind(bindValue)
-	if err!=nil{
+	if err != nil {
 		if ve, ok := err.(validator.ValidationErrors); ok {
 			for _ = range ve {
 				return e.ErrorInputMissing

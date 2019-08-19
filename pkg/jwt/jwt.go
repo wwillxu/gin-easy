@@ -8,9 +8,9 @@ import (
 
 var (
 	SigningMethod = jwt.SigningMethodHS256
-	Key = []byte(conf.JwtKey)
-	PayloadMsg = "id"
-	timeout    = 3 * time.Hour
+	Key           = []byte(conf.JwtKey)
+	PayloadMsg    = "id"
+	timeout       = 3 * time.Hour
 )
 
 // GenerateToken can use to get a jwt token.

@@ -13,7 +13,6 @@ import (
 type MapClaims map[string]interface{}
 
 var (
-
 	// ErrExpiredToken indicates JWT token has expired. Can't refresh.
 	ErrExpiredToken = errors.New("token is expired")
 
@@ -43,22 +42,22 @@ func jwtFun(c *gin.Context) {
 	claims, err := GetClaimsFromJWT(c)
 	if err != nil {
 		log.Println(err)
-		unauthorized(c,err.Error())
+		unauthorized(c, err.Error())
 		return
 	}
 
 	if claims["exp"] == nil {
-		unauthorized(c,ErrMissingExpField.Error())
+		unauthorized(c, ErrMissingExpField.Error())
 		return
 	}
 
 	if _, ok := claims["exp"].(float64); !ok {
-		unauthorized(c,ErrWrongFormatOfExp.Error())
+		unauthorized(c, ErrWrongFormatOfExp.Error())
 		return
 	}
 
 	if int64(claims["exp"].(float64)) < time.Now().Unix() {
-		unauthorized(c,ErrExpiredToken.Error())
+		unauthorized(c, ErrExpiredToken.Error())
 		return
 	}
 
@@ -74,7 +73,7 @@ func GetClaimsFromJWT(c *gin.Context) (MapClaims, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	claims := MapClaims{}
 	for key, value := range token.Claims.(jwt.MapClaims) {
 		claims[key] = value
@@ -117,10 +116,10 @@ func jwtFromHeader(c *gin.Context, key string) (string, error) {
 	return parts[1], nil
 }
 
-func unauthorized(c *gin.Context,err string)  {
-	c.JSON(200,gin.H{
+func unauthorized(c *gin.Context, err string) {
+	c.JSON(200, gin.H{
 		"code": 40000,
-		"msg": err,
+		"msg":  err,
 		"data": "Null",
 	})
 	c.Abort()

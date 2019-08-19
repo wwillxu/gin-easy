@@ -34,7 +34,6 @@ func Cors() gin.HandlerFunc {
 			c.Set("content-type", "application/json")
 		}
 
-
 		if method == "OPTIONS" {
 			c.JSON(http.StatusOK, "Options Request!")
 		}

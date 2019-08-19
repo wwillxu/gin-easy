@@ -2,19 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe988017-76bb-4390-9551-47d6594107d1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/conf.ini" beforeDir="false" afterPath="$PROJECT_DIR$/conf/conf.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/conf/init.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/v1/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/v1/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware/cros.go" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/cros.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/middleware/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/middleware/jwt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/common.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/init.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/bind/bind.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/bind/bind.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/e/msg.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/e/msg.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/jwt/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/jwt/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/util/encode.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/util/encode.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/util/md5.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/util/md5.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/user_login.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/user_login.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/user_profile.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/user_profile.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/user_register.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/user_register.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/md5.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/util/md5.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/msg.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/e/msg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/response.go" beforeDir="false" afterPath="$PROJECT_DIR$/views/response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/user_update.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/user_update.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/views/user.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
