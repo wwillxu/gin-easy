@@ -1,40 +1,48 @@
 package service
 
 import (
-	"OnlinePhotoAlbum/models"
-	"OnlinePhotoAlbum/views"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"gineasy/models"
+	"gineasy/pkg/e"
+	"gineasy/pkg/util"
 )
 
-type NewUserMsg struct {
-	//Username     string `json:"username" `
-	Password     string `json:"password" `
-	Nickname     string `json:"nickname" `
-	Introduction string `json:"introduction"`
+type UpdateMsg struct {
+	Username     string `json:"username" binding:"required"`
+	Password     string `json:"password"`
+	Nickname     string `json:"nickname" binding:"required"`
+	Introduction string `json:"introduction" binding:"required"`
+	Avatar       string `json:"avatar" binding:"required"`
 }
 
-func (service *NewUserMsg) Update(id string) *views.Response {
-	objectId, _ := primitive.ObjectIDFromHex(id)
-	filter := bson.M{"_id": objectId}
-	res, err := models.FindOneUser(filter)
-	if err != nil {
-		return views.ErrorResponse("用户不存在")
+func (service *UpdateMsg) valid() int {
+	//check username
+	if err:=models.DB.Model(&models.User{}).Where("username = ?", service.Username).First(&models.User{}).Error;err==nil{
+		return e.ErrorUsernameExist
 	}
-	if service.Nickname!=res.Nickname{
-		if _,err:=models.UpdateOneUser(filter,bson.M{"nickname":service.Nickname});err!=nil{
-			return views.ErrorResponse("修改失败")
+	return e.Success
+}
+
+func (service *UpdateMsg) Update(id string) int {
+	// update
+	var userMsg models.User
+	if err:=models.DB.First(&userMsg, id).Error;err!=nil{
+		return e.Error
+	}
+	if userMsg.Username!=service.Username{
+		//valid check
+		if err:=service.valid();err!=e.Success{
+			return err
 		}
 	}
-	if service.Introduction!=res.Introduction{
-		if _,err:=models.UpdateOneUser(filter,bson.M{"introduction":service.Introduction});err!=nil{
-			return views.ErrorResponse("修改失败")
-		}
+	service.Password = util.EncodeMd5(service.Password)
+	if err :=models.DB.Model(&userMsg).Updates(UpdateMsg{
+		Username:service.Username,
+		Password:service.Password,
+		Nickname:service.Nickname,
+		Introduction:service.Introduction,
+		Avatar:service.Avatar,
+	}).Error;err!=nil{
+		return e.ErrorUpdateUser
 	}
-	if service.Password!=res.Password&&service.Password!=""{
-		if _,err:=models.UpdateOneUser(filter,bson.M{"password":service.Password});err!=nil{
-			return views.ErrorResponse("修改失败")
-		}
-	}
-	return nil
+	return e.Success
 }

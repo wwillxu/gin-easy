@@ -1,95 +1,101 @@
 package v1
 
 import (
-	"OnlinePhotoAlbum/service"
-	"OnlinePhotoAlbum/views"
 	"fmt"
+	"gineasy/pkg/bind"
+	"gineasy/pkg/e"
+	"gineasy/service"
+	"gineasy/views"
 	"github.com/gin-gonic/gin"
 )
 
 // user register
-func RegisterHandler(c *gin.Context)  {
-	var newUser service.SignMsg
-	//bind sign massage
-	if err := c.ShouldBind(&newUser); err != nil {
-		c.JSON(200, views.ErrorBind(err))
+func RegisterHandler(c *gin.Context) {
+	var newUser service.RegisterMsg
+	// bind check
+	if err := bind.BindCheck(c, &newUser); err != e.Success {
+		c.JSON(200, views.ErrRes(err))
 		return
 	}
-	//register
-	if err:=newUser.Register();err!=nil{
-		c.JSON(200,err)
+	// register service
+	if err := newUser.Register(); err != e.Success {
+		c.JSON(200, views.ErrRes(err))
 		return
 	}
-	c.JSON(200,views.SuccessResponse("register success"))
+	c.JSON(200, views.SuccessRes("register success"))
 }
 
 // user login
-func LoginHandler(c *gin.Context)  {
+func LoginHandler(c *gin.Context) {
 	var loginUser service.LoginMsg
-	//bind sign massage
-	if err := c.ShouldBind(&loginUser); err != nil {
-		c.JSON(200, views.ErrorBind(err))
+	// bind check
+	if err := bind.BindCheck(c, &loginUser); err != e.Success {
+		c.JSON(200, views.ErrRes(err))
 		return
 	}
-	//login
-	if token,err:=loginUser.Login();err!=nil{
-		c.JSON(200,err)
+	// login service
+	token, err := loginUser.Login()
+	if err != e.Success {
+		c.JSON(200, views.ErrRes(err))
 		return
-	}else {
-		c.JSON(200,views.SuccessResponse(token))
 	}
+	c.JSON(200, views.SuccessRes(token))
 }
 
 // get user's profile
-func UserProfileHandler(c *gin.Context)  {
-	//bind :id
+func UserProfileHandler(c *gin.Context) {
+	// bind :id
 	var id string
 	id = c.Param("id")
-	if profile,err:=service.GetProfile(id);err!=nil{
-		c.JSON(200,err)
+	// get profile
+	profile,err:=service.GetProfile(id)
+	if err!=nil{
+		c.JSON(200,views.ErrRes(e.ErrorUsernameNotExist))
 		return
-	}else {
-		c.JSON(200,views.SuccessProfile(profile))
 	}
+	c.JSON(200,views.SuccessRes(profile))
+
 }
 
 // get my profile
-func MyProfileHandler(c *gin.Context)  {
-	id, err := c.Get("id")
-	if !err {
-		c.JSON(200, views.ErrorResponse("获取登录信息失败"))
-		return
-	}
-	stringId := fmt.Sprintf("%v", id)
-	if profile,err:=service.GetProfile(stringId);err!=nil{
-		c.JSON(200,err)
+func MyProfileHandler(c *gin.Context) {
+	// get uid
+	var uid string
+	if id, err := c.Get("id");!err {
+		c.JSON(200, views.ErrRes(e.ErrorGetUID))
 		return
 	}else {
-		c.JSON(200,views.SuccessProfile(profile))
+		uid = fmt.Sprintf("%v", id)
 	}
+	// get profile
+	profile,err:=service.GetProfile(uid)
+	if err!=nil{
+		c.JSON(200,views.ErrRes(e.Error))
+		return
+	}
+	c.JSON(200,views.SuccessRes(profile))
 }
 
 // update user profile
-func UpdateProfileHandler(c *gin.Context)  {
-	var newData service.NewUserMsg
-	// bind sign massage
-	if err := c.ShouldBind(&newData); err != nil {
-		c.JSON(200, views.ErrorBind(err))
+func UpdateProfileHandler(c *gin.Context) {
+	var updateUser service.UpdateMsg
+	// bind check
+	if err := bind.BindCheck(c, &updateUser); err != e.Success {
+		c.JSON(200, views.ErrRes(err))
 		return
 	}
-	// get id
-	id, err := c.Get("id")
-	if !err {
-		c.JSON(200, views.ErrorResponse("获取登录信息失败"))
+	// get uid
+	var uid string
+	if id, err := c.Get("id");!err {
+		c.JSON(200, views.ErrRes(e.ErrorGetUID))
+		return
+	}else {
+		uid = fmt.Sprintf("%v", id)
+	}
+	// update service
+	if err:=updateUser.Update(uid);err!=e.Success{
+		c.JSON(200,views.ErrRes(err))
 		return
 	}
-	stringId := fmt.Sprintf("%v", id)
-	// update
-	if err:=newData.Update(stringId);err!=nil{
-		c.JSON(200,err)
-		return
-	}
-	c.JSON(200,views.SuccessResponse("update success"))
+	c.JSON(200,views.SuccessRes("update success"))
 }
-
-

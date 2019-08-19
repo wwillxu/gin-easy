@@ -1,10 +1,10 @@
 package routers
 
 import (
-	"OnlinePhotoAlbum/conf"
-	api "OnlinePhotoAlbum/controllers/v1"
-	"OnlinePhotoAlbum/middleware"
-	"OnlinePhotoAlbum/views"
+	"gineasy/conf"
+	api "gineasy/controllers/v1"
+	"gineasy/middleware"
+	"gineasy/pkg/jwt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,7 +12,7 @@ func InitRouter() *gin.Engine {
 	r := gin.Default()
 
 	//set run mode
-	gin.SetMode(conf.GinMode)
+	gin.SetMode(conf.AppRunMode)
 
 	//cors
 	r.Use(middleware.Cors())
@@ -24,8 +24,9 @@ func InitRouter() *gin.Engine {
 		v1.POST("/user", api.RegisterHandler)
 		v1.POST("/user/login", api.LoginHandler)
 		v1.GET("/user/:id",api.UserProfileHandler)
-		v1.Use(middleware.GetToken().MiddlewareFunc())
+		v1.Use(middleware.Jwt())
 		{
+			v1.POST("/hello",pingHandler)
 			v1.GET("/me",api.MyProfileHandler)
 			v1.POST("/me",api.UpdateProfileHandler)
 		}
@@ -34,5 +35,9 @@ func InitRouter() *gin.Engine {
 }
 
 func pingHandler(c *gin.Context)  {
-	c.JSON(200,views.SuccessResponse("pong"))
+	if uid,err:=c.Get(jwt.PayloadMsg);err{
+		c.JSON(200,gin.H{"uid":uid})
+		return
+	}
+	c.JSON(200,gin.H{"message":"pong"})
 }

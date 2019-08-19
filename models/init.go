@@ -1,28 +1,26 @@
 package models
 
-
 import (
-	"context"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
 	"time"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var UserColl *mongo.Collection
+var DB *gorm.DB
 
-//connect database
-func MongodbInit(uri,dbname string) {
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
+func DatabaseInit(uri string)  {
+	db, err := gorm.Open("mysql", uri)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("failed to connect database")
 	}
-	//check connection
-	ctx, _ = context.WithTimeout(context.Background(), 2*time.Second)
-	if err = client.Ping(ctx, readpref.Primary()); err != nil {
-		log.Fatal(err)
+	//
+	db.DB().SetMaxIdleConns(20)
+	db.DB().SetMaxOpenConns(100)
+	db.DB().SetConnMaxLifetime(time.Second * 30)
+	//
+	if err:=db.HasTable(&User{});!err{
+		db.CreateTable(&User{})
 	}
-	UserColl = client.Database(dbname).Collection("user")
+	DB = db
 }

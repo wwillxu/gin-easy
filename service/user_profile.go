@@ -1,18 +1,13 @@
 package service
 
 import (
-	"OnlinePhotoAlbum/models"
-	"OnlinePhotoAlbum/views"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"gineasy/models"
+	"gineasy/views"
 )
 
-func GetProfile(id string) (models.User, *views.Response ){
-	objectId, _ := primitive.ObjectIDFromHex(id)
-	filter := bson.M{"_id": objectId}
-	if res, err := models.FindOneUser(filter); err != nil {
-		return res,views.ErrorResponse("用户不存在")
-	}else {
-		return res,nil
-	}
+func GetProfile(id string) (*views.Profile,error){
+	var userMsg models.User
+	//err:=models.DB.Model(&models.User{}).Where("id = ?", id).First(&userMsg).Error
+	err:=models.DB.First(&userMsg, id).Error
+	return views.BuildProfile(userMsg),err
 }
