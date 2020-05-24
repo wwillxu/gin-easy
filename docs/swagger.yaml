@@ -1,0 +1,87 @@
+definitions:
+  user_service.UserBasicReq:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  views.basicResponse:
+    properties:
+      data:
+        type: object
+      error:
+        type: string
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+  description: 带有鉴权的接口采用Bearer Token 加载请求header上
+  license: {}
+  title: gin-easy
+  version: "1.0"
+paths:
+  /user/delete:
+    post:
+      parameters:
+      - description: 用户信息
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/user_service.UserBasicReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/views.basicResponse'
+            type: array
+      security:
+      - BearerToken: []
+      summary: 用户账户删除
+  /user/login:
+    post:
+      parameters:
+      - description: 用户信息
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/user_service.UserBasicReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/views.basicResponse'
+            type: array
+      summary: 用户登录
+  /user/register:
+    post:
+      parameters:
+      - description: 用户信息
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/user_service.UserBasicReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/views.basicResponse'
+            type: array
+      summary: 用户注册
+swagger: "2.0"

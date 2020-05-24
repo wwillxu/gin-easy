@@ -6,6 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary 用户注册
+// @Produce  json
+// @Param  req body user_service.UserBasicReq true "用户信息"
+// @Success 200 {array} views.basicResponse
+// @Router /user/register [post]
 func UserRegisterHandler(c *gin.Context) {
 	var req user_service.UserBasicReq
 	errValid := reqValidator(c, &req)
@@ -22,6 +27,11 @@ func UserRegisterHandler(c *gin.Context) {
 	return
 }
 
+// @Summary 用户登录
+// @Produce  json
+// @Param  req body user_service.UserBasicReq true "用户信息"
+// @Success 200 {array} views.basicResponse
+// @Router /user/login [post]
 func UserLoginHandler(c *gin.Context) {
 	var req user_service.UserBasicReq
 	errValid := reqValidator(c, &req)
@@ -38,6 +48,12 @@ func UserLoginHandler(c *gin.Context) {
 	return
 }
 
+// @Summary 用户账户删除
+// @Produce  json
+// @Param  req body user_service.UserBasicReq true "用户信息"
+// @Success 200 {array} views.basicResponse
+// @Router /user/delete [post]
+// @Security BearerToken
 func UserDeleteHandler(c *gin.Context) {
 	var req user_service.UserBasicReq
 	errValid := reqValidator(c, &req)
