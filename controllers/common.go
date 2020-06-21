@@ -5,7 +5,7 @@ import (
 	"gopkg.in/go-playground/validator.v9"
 )
 
-func reqValidator(c *gin.Context, value interface{})  validator.FieldError {
+func reqValidator(c *gin.Context, value interface{}) validator.FieldError {
 	c.ShouldBind(value)
 	validate := validator.New()
 	err := validate.Struct(value)
@@ -16,5 +16,3 @@ func reqValidator(c *gin.Context, value interface{})  validator.FieldError {
 	}
 	return nil
 }
-
-

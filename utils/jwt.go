@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func GenerateToken(data interface{},key []byte,timeout time.Duration) (string, error) {
+func GenerateToken(data interface{}, key []byte, timeout time.Duration) (string, error) {
 	// 生成token
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)

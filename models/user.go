@@ -9,12 +9,11 @@ import (
 	"time"
 )
 
-
 type User struct {
-	ID primitive.ObjectID `json:"id" bson:"_id"`
-	CreatedAt int64 `json:"created_at" bson:"created_at"`
-	DeleteAt int64 `json:"delete_at" bson:"delete_at"`
-	Status int `json:"status" bson:"status"`
+	ID        primitive.ObjectID `json:"id" bson:"_id"`
+	CreatedAt int64              `json:"created_at" bson:"created_at"`
+	DeleteAt  int64              `json:"delete_at" bson:"delete_at"`
+	Status    int                `json:"status" bson:"status"`
 
 	Username string `json:"username" bson:"username"`
 	Password string `json:"password" bson:"password"`
@@ -22,12 +21,12 @@ type User struct {
 
 func UserInsertOne(msg User) (*mongo.InsertOneResult, error) {
 	res, err := UserColl.InsertOne(context.Background(), bson.M{
-		"created_at":time.Now().Unix(),
-		"delete_at":time.Now().Unix(),
-		"status":0,
+		"created_at": time.Now().Unix(),
+		"delete_at":  time.Now().Unix(),
+		"status":     0,
 
-		"username":   msg.Username,
-		"password":   msg.Password,
+		"username": msg.Username,
+		"password": msg.Password,
 	})
 	return res, err
 }

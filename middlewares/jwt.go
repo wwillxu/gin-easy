@@ -9,7 +9,9 @@ import (
 	"strings"
 	"time"
 )
+
 type MapClaims map[string]interface{}
+
 var (
 	// ErrExpiredToken indicates JWT token has expired. Can't refresh.
 	ErrExpiredToken = errors.New("token is expired")

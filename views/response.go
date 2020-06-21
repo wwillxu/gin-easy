@@ -9,7 +9,7 @@ var (
 	ErrorClient = errors.New("客户端错误")
 
 	ErrCliUserExist = errors.New("用户已存在")
-	ErrCliLogin= errors.New("用户名或密码错误")
+	ErrCliLogin     = errors.New("用户名或密码错误")
 
 	ErrorServer = errors.New("服务端错误")
 )
