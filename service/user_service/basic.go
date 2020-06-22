@@ -1,52 +1,32 @@
 package user_service
 
 import (
-	"gin-easy/config"
 	"gin-easy/models"
-	"gin-easy/utils"
 	"gin-easy/views"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
-	"time"
 )
 
 type UserBasicReq struct {
-	Username string `validate:"required"`
-	Password string `validate:"required"`
+	ID string
 }
 
-func (service *UserBasicReq) Register() error {
-	_, err := models.UserFindOne(bson.M{"status": 0, "username": service.Username})
-	if err == nil {
-		return views.ErrCliUserExist
+func (service *UserBasicReq) Delete() int {
+	// 检查ID合法性
+	id, err := primitive.ObjectIDFromHex(service.ID)
+	if err != nil {
+		log.Println(service.ID)
+		log.Println(err)
+		return views.ErrCliInvalidID
 	}
-	_, err = models.UserInsertOne(models.User{
-		Username: service.Username,
-		Password: service.Password,
-	})
+	// 软删除账户
+	filter := bson.M{"_id": id}
+	update := bson.M{"status": 1}
+	_, err = models.UserUpdateOneOfSet(filter, update)
 	if err != nil {
 		log.Println(err)
 		return views.ErrorServer
 	}
-	return nil
-}
-
-func (service *UserBasicReq) Login() (string, error) {
-	_, err := models.UserFindOne(bson.M{"status": 0, "username": service.Username, "password": service.Password})
-	if err != nil {
-		return "", views.ErrCliLogin
-	}
-	token, err := utils.GenerateToken(service.Username, []byte(config.JwtKey), 120*time.Hour)
-	if err != nil {
-		log.Println(err)
-		return "", views.ErrorServer
-	}
-	return token, nil
-}
-
-func (service *UserBasicReq) Delete() error {
-	filter := bson.M{"status": 0, "username": service.Username, "password": service.Password}
-	update := bson.M{"status": 1}
-	_, err := models.UserUpdateOne(filter, bson.M{"$set": update}, nil)
-	return err
+	return views.Success
 }
