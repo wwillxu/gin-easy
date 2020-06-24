@@ -54,7 +54,7 @@ $ go run main.go
 
 > *表示需要认证，认证形式：header前加上Bearer字段，内容为登陆接口返回的token
 
-#### POST /user/register 用户注册
+#### POST /api/v1/user/register 用户注册
 
 req
 
@@ -79,7 +79,7 @@ res
 
 
 
-#### POST /user 用户登录
+#### POST /api/v1/user/login 用户登录
 
 req
 
@@ -104,7 +104,7 @@ res
 
 
 
-#### *GET /user 用户资料
+#### *GET /api/v1/user/profile 用户资料
 
 res
 
@@ -122,7 +122,7 @@ res
 
 
 
-#### *DELETE /user 用户删除
+#### *DELETE /api/v1/user/account 用户删除
 
 res
 
