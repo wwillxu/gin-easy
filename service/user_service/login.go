@@ -5,6 +5,7 @@ import (
 	"gin-easy/models"
 	"gin-easy/utils"
 	"gin-easy/views"
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
 	"time"
@@ -15,7 +16,7 @@ type UserLoginReq struct {
 	Password string `validate:"required"`
 }
 
-func (service *UserLoginReq) Login() (string, int) {
+func (service *UserLoginReq) Login() (interface{}, int) {
 	// 登陆信息校验
 	psw := utils.String2md5(service.Password)
 	user, err := models.UserFindOne(bson.M{"status": 0, "username": service.Username, "password": psw})
@@ -28,5 +29,5 @@ func (service *UserLoginReq) Login() (string, int) {
 		log.Println(err)
 		return "", views.ErrorServer
 	}
-	return token, views.Success
+	return gin.H{"token":token}, views.Success
 }
