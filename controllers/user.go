@@ -42,6 +42,25 @@ func UserLoginHandler(c *gin.Context) {
 	return
 }
 
+func UserGetMeHandler(c *gin.Context) {
+	// 获取当前用户信息
+	id, err := currentUser(c)
+	if err != nil {
+		c.JSON(200, views.ErrorResponse(views.ErrCliParam, err))
+		return
+	}
+	// 请求绑定
+	req := user_service.UserBasicReq{ID: id}
+	// 注销业务
+	profile, code := req.GetProfile()
+	if code != views.Success {
+		c.JSON(200, views.ErrorResponse(code, ""))
+		return
+	}
+	c.JSON(200, views.Response(profile))
+	return
+}
+
 func UserDeleteHandler(c *gin.Context) {
 	// 获取当前用户信息
 	id, err := currentUser(c)

@@ -19,13 +19,14 @@ func main() {
 
 	// 业务路由
 	r.POST("/user/register", api.UserRegisterHandler)
-	r.POST("/user/login", api.UserLoginHandler)
+	r.POST("/user", api.UserLoginHandler)
 
 	// jwt中间件
 	r.Use(middlewares.Jwt())
 
 	// 需要鉴权的业务路由
-	r.POST("/user/delete", api.UserDeleteHandler)
+	r.GET("/user", api.UserGetMeHandler)
+	r.DELETE("/user", api.UserDeleteHandler)
 
 	// 监听端口
 	r.Run()

@@ -16,10 +16,13 @@ type UserLoginReq struct {
 }
 
 func (service *UserLoginReq) Login() (string, int) {
-	user, err := models.UserFindOne(bson.M{"status": 0, "username": service.Username, "password": service.Password})
+	// 登陆信息校验
+	psw := utils.String2md5(service.Password)
+	user, err := models.UserFindOne(bson.M{"status": 0, "username": service.Username, "password": psw})
 	if err != nil {
 		return "", views.ErrCliLogin
 	}
+	// 生成token
 	token, err := utils.GenerateToken(user.ID, []byte(config.JwtKey), 120*time.Hour)
 	if err != nil {
 		log.Println(err)

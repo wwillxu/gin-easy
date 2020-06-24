@@ -3,27 +3,34 @@ package user_service
 import (
 	"gin-easy/models"
 	"gin-easy/views"
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 )
 
 type UserBasicReq struct {
-	ID string
+	ID primitive.ObjectID
+}
+
+func (service *UserBasicReq) GetProfile() (interface{}, int) {
+	filter := bson.M{"status": 0, "_id": service.ID}
+	res, err := models.UserFindOne(filter)
+	if err != nil {
+		log.Println(err)
+		return nil, views.ErrorServer
+	}
+	return gin.H{
+		"username":  res.Username,
+		"telephone": res.Telephone,
+		"email":     res.Email,
+	}, views.Success
 }
 
 func (service *UserBasicReq) Delete() int {
-	// 检查ID合法性
-	id, err := primitive.ObjectIDFromHex(service.ID)
-	if err != nil {
-		log.Println(service.ID)
-		log.Println(err)
-		return views.ErrCliInvalidID
-	}
-	// 软删除账户
-	filter := bson.M{"_id": id}
+	filter := bson.M{"_id": service.ID}
 	update := bson.M{"status": 1}
-	_, err = models.UserUpdateOneOfSet(filter, update)
+	_, err := models.UserUpdateOneOfSet(filter, update)
 	if err != nil {
 		log.Println(err)
 		return views.ErrorServer
