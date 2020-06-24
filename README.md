@@ -10,12 +10,11 @@
 
 ### 特性
 
-- Restful API
-- 结构化输出
 - 配置文件定义
+- Restful API
+- 基础中间件
 - 参数验证
-- 跨域、JWT中间件
-- 自动化API文档
+- 结构化返回
 
 ### 开始
 
@@ -38,10 +37,10 @@ PORT = 8080
 
 #database
 DATABASE_URI = mongodb://localhost:27017
-DATABASE_NAME = test_db
+DATABASE_NAME = gin-easy
 
 #jwt
-JWT_KEY = test_key
+JWT_KEY = gin-easy
 ```
 
 ### 运行
@@ -49,20 +48,89 @@ JWT_KEY = test_key
 ```bash
 $ cd gin-easy
 $ go run main.go
-[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
-
-[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
- - using env:   export GIN_MODE=release
- - using code:  gin.SetMode(gin.ReleaseMode)
-
-[GIN-debug] GET    /docs/*any                --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (4 handlers)
-[GIN-debug] POST   /user/register            --> gin-easy/controllers.UserRegisterHandler (4 handlers)
-[GIN-debug] POST   /user/login               --> gin-easy/controllers.UserLoginHandler (4 handlers)
-[GIN-debug] POST   /user/delete              --> gin-easy/controllers.UserDeleteHandler (5 handlers)
-[GIN-debug] Environment variable PORT="8080"
-[GIN-debug] Listening and serving HTTP on :8080
 ```
 
 ### API文档
 
-运行后浏览器访问http://localhost:8080/docs/index.html
+> *表示需要认证，认证形式：header前加上Bearer字段，内容为登陆接口返回的token
+
+#### POST /user/register 用户注册
+
+req
+
+```json
+{
+    "username":"user",
+    "password":"123456",
+    "email":"user@eamil.com",
+    "telephone":"666699999"
+}
+```
+
+res
+
+```json
+{
+    "code": 20000,
+    "error": "",
+    "data": null
+}
+```
+
+
+
+#### POST /user 用户登录
+
+req
+
+```json
+{
+    "username":"user",
+    "password":"123456"
+}
+```
+
+res
+
+```json
+{
+    "code": 20000,
+    "error": "",
+    "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTM0MzU3NDIsImlkIjoiNWVmMzRlYzU0ZWM3ZTFhYzA4MzNhYTcwIn0.pGAui6_2Pd9H1517oi3B9BZCctEvTwjgt53iYxjAsMg"
+    }
+}
+```
+
+
+
+#### *GET /user 用户资料
+
+res
+
+```json
+{
+    "code": 20000,
+    "error": "",
+    "data": {
+        "email": "user@eamil.com",
+        "telephone": "666699999",
+        "username": "user"
+    }
+}
+```
+
+
+
+#### *DELETE /user 用户删除
+
+res
+
+```json
+{
+    "code": 20000,
+    "error": "",
+    "data": null
+}
+```
+
