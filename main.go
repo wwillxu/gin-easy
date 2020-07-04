@@ -18,16 +18,17 @@ func main() {
 	r.Use(middlewares.Cors())
 
 	// 业务路由
-	v1:=r.Group("/api/v1")
-	v1.POST("/user/register", api.UserRegisterHandler)
-	v1.POST("/user/login", api.UserLoginHandler)
+	v1 := r.Group("/api/v1")
+	v1.POST("/register", api.UserRegisterHandler)
+	v1.POST("/login", api.UserLoginHandler)
 
 	// jwt中间件
 	v1.Use(middlewares.Jwt())
 
 	// 需要鉴权的业务路由
-	v1.GET("/user/profile", api.UserGetMeHandler)
-	v1.DELETE("/user/account", api.UserDeleteHandler)
+	user := v1.Group("/user")
+	user.GET("", api.UserGetMeHandler)
+	user.DELETE("", api.UserDeleteHandler)
 
 	// 监听端口
 	r.Run()

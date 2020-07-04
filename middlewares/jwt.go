@@ -93,7 +93,7 @@ func jwtFromHeader(c *gin.Context, key string) (string, error) {
 func unauthorized(c *gin.Context, err string) {
 	c.JSON(200, gin.H{
 		"code":  40300,
-		"error": err,
+		"error": "[Auth Error] " + err,
 		"data":  nil,
 	})
 	c.Abort()

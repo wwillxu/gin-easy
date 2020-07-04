@@ -29,5 +29,5 @@ func (service *UserLoginReq) Login() (interface{}, int) {
 		log.Println(err)
 		return "", views.ErrorServer
 	}
-	return gin.H{"token":token}, views.Success
+	return gin.H{"token": token}, views.Success
 }

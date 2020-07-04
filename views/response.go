@@ -1,9 +1,5 @@
 package views
 
-import (
-	"fmt"
-)
-
 type basicResponse struct {
 	Code  int         `json:"code"`
 	Error string      `json:"error"`
@@ -18,10 +14,10 @@ func Response(data interface{}) interface{} {
 	}
 }
 
-func ErrorResponse(code int, errMsg interface{}) interface{} {
+func ErrorResponse(code int) interface{} {
 	return basicResponse{
 		Code:  code,
-		Error: GetErrMsg(code) + fmt.Sprint(errMsg),
+		Error: GetErrMsg(code),
 		Data:  nil,
 	}
 }

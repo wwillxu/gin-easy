@@ -11,13 +11,12 @@ func UserRegisterHandler(c *gin.Context) {
 	var req user_service.UserRegisterReq
 	err := reqValidator(c, &req)
 	if err != nil {
-		c.JSON(200, views.ErrorResponse(views.ErrCliParam, err))
 		return
 	}
-	// 注册业务
+	// 注册
 	code := req.Register()
 	if code != views.Success {
-		c.JSON(200, views.ErrorResponse(code, ""))
+		c.JSON(200, views.ErrorResponse(code))
 		return
 	}
 	c.JSON(200, views.Response(nil))
@@ -29,13 +28,12 @@ func UserLoginHandler(c *gin.Context) {
 	var req user_service.UserLoginReq
 	err := reqValidator(c, &req)
 	if err != nil {
-		c.JSON(200, views.ErrorResponse(views.ErrCliParam, err))
 		return
 	}
-	// 登陆业务
+	// 登陆
 	token, code := req.Login()
 	if code != views.Success {
-		c.JSON(200, views.ErrorResponse(code, ""))
+		c.JSON(200, views.ErrorResponse(code))
 		return
 	}
 	c.JSON(200, views.Response(token))
@@ -44,17 +42,16 @@ func UserLoginHandler(c *gin.Context) {
 
 func UserGetMeHandler(c *gin.Context) {
 	// 获取当前用户信息
-	id, err := currentUser(c)
+	id, err := getUserID(c)
 	if err != nil {
-		c.JSON(200, views.ErrorResponse(views.ErrCliParam, err))
 		return
 	}
 	// 请求绑定
 	req := user_service.UserBasicReq{ID: id}
-	// 注销业务
+	// 获取资料
 	profile, code := req.GetProfile()
 	if code != views.Success {
-		c.JSON(200, views.ErrorResponse(code, ""))
+		c.JSON(200, views.ErrorResponse(code))
 		return
 	}
 	c.JSON(200, views.Response(profile))
@@ -63,17 +60,16 @@ func UserGetMeHandler(c *gin.Context) {
 
 func UserDeleteHandler(c *gin.Context) {
 	// 获取当前用户信息
-	id, err := currentUser(c)
+	id, err := getUserID(c)
 	if err != nil {
-		c.JSON(200, views.ErrorResponse(views.ErrCliParam, err))
 		return
 	}
 	// 请求绑定
 	req := user_service.UserBasicReq{ID: id}
-	// 注销业务
+	// 账户注销
 	code := req.Delete()
 	if code != views.Success {
-		c.JSON(200, views.ErrorResponse(code, ""))
+		c.JSON(200, views.ErrorResponse(code))
 		return
 	}
 	c.JSON(200, views.Response(nil))
