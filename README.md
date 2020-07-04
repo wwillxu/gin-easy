@@ -2,25 +2,33 @@
 
 > 基于gin的golang-web快速开发框架
 
+
+
 ### 环境
 
 - Go 
 
 - mongoDB 
 
+
+
 ### 特性
 
-- 配置文件定义
+- 自定义配置
 - Restful API
 - 基础中间件
-- 参数验证
-- 结构化返回
+- 参数验证器
+- 序列化返回
+
+
 
 ### 开始
 
 ```bash
-$ git clone https://github.com/WillXu24/gin-easy.git
+$ git clone https://github.com/willxu24/gin-easy.git
 ```
+
+
 
 ### 配置
 
@@ -36,12 +44,14 @@ example.env
 PORT = 8080
 
 #database
-DATABASE_URI = mongodb://localhost:27017
+DATABASE_URI = mongodb://localhost:27017 # 地址格式：mongodb://[user]:[password]@[ip]:[port]
 DATABASE_NAME = gin-easy
 
 #jwt
 JWT_KEY = gin-easy
 ```
+
+
 
 ### 运行
 
@@ -50,11 +60,24 @@ $ cd gin-easy
 $ go run main.go
 ```
 
+
+
+### 移植开发
+
+```bash
+$ cd gin-easy
+$ rm -r ./.git/
+```
+
+替换`go.mod`以及7个`.go`文件中共计16个`gin-easy`字段为你的工程名
+
+
+
 ### API文档
 
 > *表示需要认证，认证形式：header前加上Bearer字段，内容为登陆接口返回的token
 
-#### POST /api/v1/user/register 用户注册
+#### POST /api/v1/register 用户注册
 
 req
 
@@ -79,7 +102,7 @@ res
 
 
 
-#### POST /api/v1/user/login 用户登录
+#### POST /api/v1/login 用户登录
 
 req
 
@@ -104,7 +127,7 @@ res
 
 
 
-#### *GET /api/v1/user/profile 用户资料
+#### *GET /api/v1/user 用户资料
 
 res
 
@@ -122,7 +145,7 @@ res
 
 
 
-#### *DELETE /api/v1/user/account 用户删除
+#### *DELETE /api/v1/user 用户删除
 
 res
 
