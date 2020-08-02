@@ -3,6 +3,7 @@ package api
 import (
 	"errors"
 	"fmt"
+	"gin-easy/views"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"gopkg.in/go-playground/validator.v9"
@@ -79,7 +80,7 @@ func getFormFile(c *gin.Context, key string) (*multipart.FileHeader, error) {
 
 func unPassValidator(c *gin.Context, err interface{}) {
 	c.JSON(200, gin.H{
-		"code":  40000,
+		"code":  views.ErrorCliParam,
 		"error": fmt.Sprintf("[Param Error] %s", err),
 		"data":  nil,
 	})

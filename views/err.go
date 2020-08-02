@@ -3,8 +3,11 @@ package views
 const (
 	Success = 20000
 
-	// 客户端通用错误
+	// 客户端参数错误
 	ErrorCliParam = 40000
+	// 客户端认证错误
+	ErrorCliAuth = 40300
+
 	// 客户端登陆信息错误
 	ErrCliLogin = 40001
 	// 客户端请求的用户已存在
@@ -15,7 +18,6 @@ const (
 )
 
 var errMap = map[int]string{
-	//ErrorCliParam:     "[Param Error] only use in controller/common.go",
 	ErrCliLogin:     "[Client Error] wrong user name or password",
 	ErrCliUserExist: "[Client Error] user exist",
 	ErrorServer:     "[Server Error] contact admin",
