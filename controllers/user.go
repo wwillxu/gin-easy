@@ -1,14 +1,14 @@
 package api
 
 import (
-	"gin-easy/service/user_service"
+	"gin-easy/service/user"
 	"gin-easy/views"
 	"github.com/gin-gonic/gin"
 )
 
 func UserRegisterHandler(c *gin.Context) {
 	// 请求绑定
-	var req user_service.UserRegisterReq
+	var req user.RegisterReq
 	err := reqValidator(c, &req)
 	if err != nil {
 		return
@@ -25,7 +25,7 @@ func UserRegisterHandler(c *gin.Context) {
 
 func UserLoginHandler(c *gin.Context) {
 	// 请求绑定
-	var req user_service.UserLoginReq
+	var req user.LoginReq
 	err := reqValidator(c, &req)
 	if err != nil {
 		return
@@ -47,7 +47,7 @@ func UserGetMeHandler(c *gin.Context) {
 		return
 	}
 	// 请求绑定
-	req := user_service.UserBasicReq{ID: id}
+	req := user.BasicReq{ID: id}
 	// 获取资料
 	profile, code := req.GetProfile()
 	if code != views.Success {
@@ -65,7 +65,7 @@ func UserDeleteHandler(c *gin.Context) {
 		return
 	}
 	// 请求绑定
-	req := user_service.UserBasicReq{ID: id}
+	req := user.BasicReq{ID: id}
 	// 账户注销
 	code := req.Delete()
 	if code != views.Success {

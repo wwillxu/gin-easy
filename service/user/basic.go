@@ -1,4 +1,4 @@
-package user_service
+package user
 
 import (
 	"gin-easy/models"
@@ -9,11 +9,11 @@ import (
 	"log"
 )
 
-type UserBasicReq struct {
+type BasicReq struct {
 	ID primitive.ObjectID
 }
 
-func (service *UserBasicReq) GetProfile() (interface{}, int) {
+func (service *BasicReq) GetProfile() (interface{}, int) {
 	filter := bson.M{"status": 0, "_id": service.ID}
 	res, err := models.UserFindOne(filter)
 	if err != nil {
@@ -27,7 +27,7 @@ func (service *UserBasicReq) GetProfile() (interface{}, int) {
 	}, views.Success
 }
 
-func (service *UserBasicReq) Delete() int {
+func (service *BasicReq) Delete() int {
 	filter := bson.M{"_id": service.ID}
 	update := bson.M{"status": 1}
 	_, err := models.UserUpdateOneOfSet(filter, update)

@@ -1,4 +1,4 @@
-package user_service
+package user
 
 import (
 	"gin-easy/config"
@@ -11,12 +11,12 @@ import (
 	"time"
 )
 
-type UserLoginReq struct {
+type LoginReq struct {
 	Username string `validate:"required"`
 	Password string `validate:"required"`
 }
 
-func (service *UserLoginReq) Login() (interface{}, int) {
+func (service *LoginReq) Login() (interface{}, int) {
 	// 登陆信息校验
 	psw := utils.String2md5(service.Password)
 	user, err := models.UserFindOne(bson.M{"status": 0, "username": service.Username, "password": psw})

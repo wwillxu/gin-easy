@@ -1,4 +1,4 @@
-package user_service
+package user
 
 import (
 	"gin-easy/models"
@@ -8,14 +8,14 @@ import (
 	"log"
 )
 
-type UserRegisterReq struct {
+type RegisterReq struct {
 	Username  string `validate:"required"`
 	Password  string `validate:"required"`
 	Email     string `validate:"required"`
 	Telephone string `validate:"required"`
 }
 
-func (service *UserRegisterReq) Register() int {
+func (service *RegisterReq) Register() int {
 	// 检查用户名合法性
 	_, err := models.UserFindOne(bson.M{"status": 0, "username": service.Username})
 	if err == nil {
