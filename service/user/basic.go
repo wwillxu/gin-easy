@@ -14,7 +14,7 @@ type BasicReq struct {
 }
 
 func (service *BasicReq) GetProfile() (interface{}, int) {
-	filter := bson.M{"status": 0, "_id": service.ID}
+	filter := bson.M{"status": models.Normal, "_id": service.ID}
 	res, err := models.UserFindOne(filter)
 	if err != nil {
 		log.Println(err)
@@ -29,7 +29,7 @@ func (service *BasicReq) GetProfile() (interface{}, int) {
 
 func (service *BasicReq) Delete() int {
 	filter := bson.M{"_id": service.ID}
-	update := bson.M{"status": 1}
+	update := bson.M{"status": models.Deleted}
 	_, err := models.UserUpdateOneOfSet(filter, update)
 	if err != nil {
 		log.Println(err)

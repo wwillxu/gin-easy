@@ -34,8 +34,8 @@ func UserUpdateOneOfSet(filter bson.M, update bson.M) (*mongo.UpdateResult, erro
 func UserInsertOne(msg User) (*mongo.InsertOneResult, error) {
 	res, err := UserColl.InsertOne(context.Background(), bson.M{
 		"created_at": time.Now().Unix(),
-		"delete_at":  time.Now().Unix(),
-		"status":     0,
+		"delete_at":  0,
+		"status":     Normal,
 
 		"username":  msg.Username,
 		"password":  msg.Password,

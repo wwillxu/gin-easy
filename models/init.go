@@ -12,6 +12,11 @@ import (
 
 var UserColl *mongo.Collection
 
+const (
+	Normal  = 1
+	Deleted = 0
+)
+
 func init() {
 	// 连接数据库
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)

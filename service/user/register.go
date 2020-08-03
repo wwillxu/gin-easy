@@ -17,7 +17,7 @@ type RegisterReq struct {
 
 func (service *RegisterReq) Register() int {
 	// 检查用户名合法性
-	_, err := models.UserFindOne(bson.M{"status": 0, "username": service.Username})
+	_, err := models.UserFindOne(bson.M{"status": models.Normal, "username": service.Username})
 	if err == nil {
 		return views.ErrCliUserExist
 	}

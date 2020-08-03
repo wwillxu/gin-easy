@@ -19,7 +19,7 @@ type LoginReq struct {
 func (service *LoginReq) Login() (interface{}, int) {
 	// 登陆信息校验
 	psw := utils.String2md5(service.Password)
-	user, err := models.UserFindOne(bson.M{"status": 0, "username": service.Username, "password": psw})
+	user, err := models.UserFindOne(bson.M{"status": models.Normal, "username": service.Username, "password": psw})
 	if err != nil {
 		return "", views.ErrCliLogin
 	}
