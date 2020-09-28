@@ -13,6 +13,10 @@ import (
 var UserColl *mongo.Collection
 
 const (
+	// 查询不存在
+	NotExist = "mongo: no documents in result"
+
+	// 单条文档状态
 	Normal  = 1
 	Deleted = 0
 )

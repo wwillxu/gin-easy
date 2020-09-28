@@ -17,6 +17,9 @@ func (service *BasicReq) GetProfile() (interface{}, int) {
 	filter := bson.M{"status": models.Normal, "_id": service.ID}
 	res, err := models.UserFindOne(filter)
 	if err != nil {
+		if err.Error() == models.NotExist {
+			return nil, views.ErrCliUserNotExist
+		}
 		log.Println(err)
 		return nil, views.ErrorServer
 	}
