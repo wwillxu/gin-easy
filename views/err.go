@@ -1,34 +1,11 @@
 package views
 
-const (
-	Success = 20000
+import "errors"
 
-	// 客户端参数错误
-	ErrorCliParam = 40000
-	// 客户端认证错误
-	ErrorCliAuth = 40300
+var (
+	LoginError   = errors.New("[Client Error] wrong user name or password")
+	UserExist    = errors.New("[Client Error] user exist")
+	UserNotExist = errors.New("[Client Error] user not exist")
 
-	// 客户端登陆信息错误
-	ErrCliLogin = 40001
-	// 客户端请求的用户已存在
-	ErrCliUserExist    = 40003
-	ErrCliUserNotExist = 40004
-
-	// 服务端通用错误
-	ErrorServer = 50000
+	ServerError = errors.New("[Server Error] contact admin")
 )
-
-var errMap = map[int]string{
-	ErrCliLogin:        "[Client Error] wrong user name or password",
-	ErrCliUserExist:    "[Client Error] user exist",
-	ErrCliUserNotExist: "[Client Error] user not exist",
-	ErrorServer:        "[Server Error] contact admin",
-}
-
-func GetErrMsg(code int) string {
-	msg, err := errMap[code]
-	if !err {
-		return "[Undefined Error] Contact developer"
-	}
-	return msg
-}

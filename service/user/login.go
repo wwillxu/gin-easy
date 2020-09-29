@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"log"
-	"time"
 )
 
 type LoginReq struct {
@@ -16,18 +15,18 @@ type LoginReq struct {
 	Password string `validate:"required"`
 }
 
-func (service *LoginReq) Login() (interface{}, int) {
+func (service *LoginReq) Login() (interface{}, error) {
 	// 登陆信息校验
 	psw := utils.String2md5(service.Password)
 	user, err := models.UserFindOne(bson.M{"status": models.Normal, "username": service.Username, "password": psw})
 	if err != nil {
-		return "", views.ErrCliLogin
+		return nil, views.LoginError
 	}
 	// 生成token
-	token, err := utils.GenerateToken(user.ID, []byte(config.JwtKey), 120*time.Hour)
+	token, err := utils.GenerateToken(user.ID, []byte(config.JwtKey))
 	if err != nil {
 		log.Println(err)
-		return "", views.ErrorServer
+		return nil, views.ServerError
 	}
-	return gin.H{"token": token}, views.Success
+	return gin.H{"token": token}, nil
 }

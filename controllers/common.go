@@ -3,14 +3,11 @@ package api
 import (
 	"errors"
 	"fmt"
-	"gin-easy/views"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"gopkg.in/go-playground/validator.v9"
 	"mime/multipart"
 )
-
-var ParamError = errors.New("param error")
 
 // 参数绑定
 func reqValidator(c *gin.Context, value interface{}) error {
@@ -19,8 +16,7 @@ func reqValidator(c *gin.Context, value interface{}) error {
 	err := validate.Struct(value)
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
-			unPassValidator(c, err)
-			return ParamError
+			return err.(error)
 		}
 	}
 	return nil
@@ -31,15 +27,13 @@ func getUserID(c *gin.Context) (primitive.ObjectID, error) {
 	// 获取当前ID
 	value, exists := c.Get("id")
 	if !exists {
-		unPassValidator(c, "user id get failed")
-		return primitive.NilObjectID, ParamError
+		return primitive.NilObjectID, errors.New("[Param Error] user id is nil")
 	}
 	res := fmt.Sprintf("%v", value)
 	// 检查ID合法性
 	id, err := primitive.ObjectIDFromHex(res)
 	if err != nil {
-		unPassValidator(c, "user id is invalid")
-		return primitive.NilObjectID, ParamError
+		return primitive.NilObjectID, errors.New("[Param Error] user id is invalid")
 	}
 	return id, nil
 }
@@ -48,14 +42,12 @@ func getParamID(c *gin.Context) (primitive.ObjectID, error) {
 	// 获取当前ID
 	value := c.Param("id")
 	if value == "" {
-		unPassValidator(c, "input nil id")
-		return primitive.NilObjectID, ParamError
+		return primitive.NilObjectID, errors.New("[Param Error] id is nil")
 	}
 	// 检查ID合法性
 	id, err := primitive.ObjectIDFromHex(value)
 	if err != nil {
-		unPassValidator(c, "user id is invalid")
-		return primitive.NilObjectID, ParamError
+		return primitive.NilObjectID, errors.New("[Param Error] id is invalid")
 	}
 	return id, nil
 }
@@ -63,8 +55,7 @@ func getParamID(c *gin.Context) (primitive.ObjectID, error) {
 func getQueryKey(c *gin.Context, key string) (string, error) {
 	value := c.Query(key)
 	if value == "" {
-		unPassValidator(c, "required query key: "+key)
-		return "", ParamError
+		return "", errors.New("[Param Error] required query key: " + key)
 	}
 	return value, nil
 }
@@ -72,16 +63,7 @@ func getQueryKey(c *gin.Context, key string) (string, error) {
 func getFormFile(c *gin.Context, key string) (*multipart.FileHeader, error) {
 	value, err := c.FormFile(key)
 	if err != nil {
-		unPassValidator(c, err)
-		return nil, ParamError
+		return nil, errors.New("[Param Error] required form key: " + key)
 	}
 	return value, nil
-}
-
-func unPassValidator(c *gin.Context, err interface{}) {
-	c.JSON(200, gin.H{
-		"code":  views.ErrorCliParam,
-		"error": fmt.Sprintf("[Param Error] %s", err),
-		"data":  nil,
-	})
 }

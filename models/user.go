@@ -25,9 +25,9 @@ type User struct {
 
 /***************************************************** Simple *********************************************************/
 // 简单封装层，可根据业务需求复杂度选择是否进行简单封装
-func UserUpdateOneOfSet(filter bson.M, update bson.M) (*mongo.UpdateResult, error) {
-	res, err := UserUpdateOne(filter, bson.M{"$set": update}, nil)
-	return res, err
+func UserUpdateOneOfSet(filter bson.M, update bson.M) error {
+	_, err := UserUpdateOne(filter, bson.M{"$set": update}, nil)
+	return err
 }
 
 /***************************************************** Basic **********************************************************/

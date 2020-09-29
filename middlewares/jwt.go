@@ -3,9 +3,9 @@ package middlewares
 import (
 	"errors"
 	"gin-easy/config"
-	"gin-easy/views"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"strings"
 	"time"
 )
@@ -92,10 +92,10 @@ func jwtFromHeader(c *gin.Context, key string) (string, error) {
 }
 
 func unauthorized(c *gin.Context, err string) {
-	c.JSON(200, gin.H{
-		"code":  views.ErrorCliAuth,
-		"error": "[Auth Error] " + err,
-		"data":  nil,
+	c.JSON(http.StatusOK, gin.H{
+		"success": false,
+		"error":   "[Auth Error] " + err,
+		"data":    nil,
 	})
 	c.Abort()
 }
