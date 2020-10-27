@@ -13,30 +13,30 @@ type BasicReq struct {
 	ID primitive.ObjectID
 }
 
-func (service *BasicReq) GetProfile() (interface{}, error) {
+func (service *BasicReq) GetProfile() (interface{}, int) {
 	filter := bson.M{"status": models.Normal, "_id": service.ID}
 	res, err := models.UserFindOne(filter)
 	if err != nil {
 		if err.Error() == models.NotExist {
-			return nil, views.UserNotExist
+			return nil, views.ErrUserNotExist
 		}
 		log.Println(err)
-		return nil, views.ServerError
+		return nil, views.ErrServer
 	}
 	return gin.H{
 		"username":  res.Username,
 		"telephone": res.Telephone,
 		"email":     res.Email,
-	}, nil
+	}, views.Success
 }
 
-func (service *BasicReq) Delete() error {
+func (service *BasicReq) Delete() int {
 	filter := bson.M{"_id": service.ID}
 	update := bson.M{"status": models.Deleted}
 	err := models.UserUpdateOneOfSet(filter, update)
 	if err != nil {
 		log.Println(err)
-		return views.ServerError
+		return views.ErrServer
 	}
-	return nil
+	return views.Success
 }

@@ -9,17 +9,17 @@ import (
 )
 
 type RegisterReq struct {
-	Username  string `validate:"required"`
-	Password  string `validate:"required"`
-	Email     string `validate:"required"`
-	Telephone string `validate:"required"`
+	Username  string `binding:"required"`
+	Password  string `binding:"required"`
+	Email     string `binding:"required"`
+	Telephone string `binding:"required"`
 }
 
-func (service *RegisterReq) Register() error {
+func (service *RegisterReq) Register() int {
 	// 检查用户名合法性
 	_, err := models.UserFindOne(bson.M{"status": models.Normal, "username": service.Username})
 	if err == nil {
-		return views.UserExist
+		return views.ErrUserExist
 	}
 	// 用户信息注册
 	_, err = models.UserInsertOne(models.User{
@@ -30,7 +30,7 @@ func (service *RegisterReq) Register() error {
 	})
 	if err != nil {
 		log.Println(err)
-		return views.ServerError
+		return views.ErrServer
 	}
-	return nil
+	return views.Success
 }

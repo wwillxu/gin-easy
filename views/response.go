@@ -1,23 +1,23 @@
 package views
 
 type basicResponse struct {
-	Success bool        `json:"success"`
-	Error   string      `json:"error"`
-	Data    interface{} `json:"data"`
+	Code  int         `json:"code"`
+	Error string      `json:"error"`
+	Data  interface{} `json:"data"`
 }
 
 func Response(data interface{}) interface{} {
 	return basicResponse{
-		Success: true,
-		Error:   "",
-		Data:    data,
+		Code:  Success,
+		Error: "",
+		Data:  data,
 	}
 }
 
-func ErrorResponse(err error) interface{} {
+func ErrorResponse(code int) interface{} {
 	return basicResponse{
-		Success: false,
-		Error:   err.Error(),
-		Data:    nil,
+		Code:  code,
+		Error: getErrMsg(code),
+		Data:  nil,
 	}
 }

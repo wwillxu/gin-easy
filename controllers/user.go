@@ -1,24 +1,26 @@
 package api
 
 import (
+	"fmt"
 	"gin-easy/service/user"
 	"gin-easy/views"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 )
 
 func UserRegisterHandler(c *gin.Context) {
 	// 请求绑定
 	var req user.RegisterReq
-	err := reqValidator(c, &req)
+	err := c.ShouldBindJSON(&req)
 	if err != nil {
-		c.JSON(http.StatusOK, views.ErrorResponse(err))
+		c.JSON(http.StatusOK, views.ErrorResponse(views.ErrParam))
 		return
 	}
 	// 注册
-	err = req.Register()
-	if err != nil {
-		c.JSON(http.StatusOK, views.ErrorResponse(err))
+	code := req.Register()
+	if code != views.Success {
+		c.JSON(http.StatusOK, views.ErrorResponse(code))
 		return
 	}
 	c.JSON(http.StatusOK, views.Response(nil))
@@ -28,15 +30,15 @@ func UserRegisterHandler(c *gin.Context) {
 func UserLoginHandler(c *gin.Context) {
 	// 请求绑定
 	var req user.LoginReq
-	err := reqValidator(c, &req)
+	err := c.ShouldBindJSON(&req)
 	if err != nil {
-		c.JSON(http.StatusOK, views.ErrorResponse(err))
+		c.JSON(http.StatusOK, views.ErrorResponse(views.ErrParam))
 		return
 	}
 	// 登陆
-	token, err := req.Login()
-	if err != nil {
-		c.JSON(http.StatusOK, views.ErrorResponse(err))
+	token, code := req.Login()
+	if code != views.Success {
+		c.JSON(http.StatusOK, views.ErrorResponse(code))
 		return
 	}
 	c.JSON(http.StatusOK, views.Response(token))
@@ -45,17 +47,24 @@ func UserLoginHandler(c *gin.Context) {
 
 func UserGetMeHandler(c *gin.Context) {
 	// 获取当前用户信息
-	id, err := getUserID(c)
-	if err != nil {
-		c.JSON(http.StatusOK, views.ErrorResponse(err))
+	value, exists := c.Get("id")
+	if !exists {
+		c.JSON(http.StatusOK, views.ErrorResponse(views.ErrNilID))
 		return
 	}
+	// 检查ID合法性
+	id, err := primitive.ObjectIDFromHex(fmt.Sprintf("%v", value))
+	if err != nil {
+		c.JSON(http.StatusOK, views.ErrorResponse(views.ErrInvalidID))
+		return
+	}
+
 	// 请求绑定
 	req := user.BasicReq{ID: id}
 	// 获取资料
-	profile, err := req.GetProfile()
-	if err != nil {
-		c.JSON(http.StatusOK, views.ErrorResponse(err))
+	profile, code := req.GetProfile()
+	if code != views.Success {
+		c.JSON(http.StatusOK, views.ErrorResponse(code))
 		return
 	}
 	c.JSON(http.StatusOK, views.Response(profile))
@@ -64,17 +73,24 @@ func UserGetMeHandler(c *gin.Context) {
 
 func UserDeleteHandler(c *gin.Context) {
 	// 获取当前用户信息
-	id, err := getUserID(c)
-	if err != nil {
-		c.JSON(http.StatusOK, views.ErrorResponse(err))
+	value, exists := c.Get("id")
+	if !exists {
+		c.JSON(http.StatusOK, views.ErrorResponse(views.ErrNilID))
 		return
 	}
+	// 检查ID合法性
+	id, err := primitive.ObjectIDFromHex(fmt.Sprintf("%v", value))
+	if err != nil {
+		c.JSON(http.StatusOK, views.ErrorResponse(views.ErrInvalidID))
+		return
+	}
+
 	// 请求绑定
 	req := user.BasicReq{ID: id}
 	// 账户注销
-	err = req.Delete()
-	if err != nil {
-		c.JSON(http.StatusOK, views.ErrorResponse(err))
+	code := req.Delete()
+	if code != views.Success {
+		c.JSON(http.StatusOK, views.ErrorResponse(code))
 		return
 	}
 	c.JSON(http.StatusOK, views.Response(nil))
