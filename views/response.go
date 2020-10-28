@@ -1,23 +1,23 @@
 package views
 
-type basicResponse struct {
+type response struct {
 	Code  int         `json:"code"`
 	Error string      `json:"error"`
 	Data  interface{} `json:"data"`
 }
 
-func Response(data interface{}) interface{} {
-	return basicResponse{
-		Code:  Success,
-		Error: "",
+func BasicResponse(code int, err string, data interface{}) interface{} {
+	return response{
+		Code:  code,
+		Error: err,
 		Data:  data,
 	}
 }
 
-func ErrorResponse(code int) interface{} {
-	return basicResponse{
-		Code:  code,
-		Error: getErrMsg(code),
-		Data:  nil,
-	}
+func DataResponse(data interface{}) interface{} {
+	return BasicResponse(Success, "", data)
+}
+
+func ErrResponse(code int) interface{} {
+	return BasicResponse(code, getErrMsg(code), nil)
 }

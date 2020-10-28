@@ -13,20 +13,6 @@ import (
 
 type MapClaims map[string]interface{}
 
-//const (
-//	ErrExpiredToken = 4031
-//	ErrEmptyAuthHeader=4032
-//	ErrInvalidAuthHeader = 4033
-//	ErrInvalidSigningAlgorithm = 4034
-//)
-//
-//var errMap = map[int]string{
-//	ErrExpiredToken:"token is expired",
-//	ErrEmptyAuthHeader:"auth header is empty",
-//	ErrInvalidAuthHeader:"auth header is invalid",
-//	ErrInvalidSigningAlgorithm:"invalid signing algorithm",
-//
-//}
 var (
 	// ErrExpiredToken indicates JWT token has expired. Can't refresh.
 	ErrExpiredToken = errors.New("token is expired")
@@ -106,11 +92,12 @@ func jwtFromHeader(c *gin.Context, key string) (string, error) {
 	return parts[1], nil
 }
 
+// 错误信息返回
 func unauthorized(c *gin.Context, err string) {
-	c.JSON(http.StatusOK, gin.H{
-		"code":  views.ErrAuth,
-		"error": "[Auth Error] " + err,
-		"data":  nil,
-	})
+	c.JSON(http.StatusOK, errResponse(err))
 	c.Abort()
+}
+
+func errResponse(err string) interface{} {
+	return views.BasicResponse(4030, "[Auth Error] "+err, nil)
 }

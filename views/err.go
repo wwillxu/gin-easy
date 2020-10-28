@@ -4,7 +4,6 @@ const (
 	Success = 2000
 
 	ErrParam        = 4001
-	ErrAuth         = 4030
 	ErrNilID        = 4002
 	ErrInvalidID    = 4003
 	ErrLogin        = 4005
