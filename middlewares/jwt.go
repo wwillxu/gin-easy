@@ -75,7 +75,7 @@ func ParseToken(c *gin.Context) (*jwt.Token, error) {
 		if jwt.SigningMethodHS256 != t.Method {
 			return nil, ErrInvalidSigningAlgorithm
 		}
-		return []byte(config.JwtKey), nil
+		return []byte(config.Conf.JWT.Secret), nil
 	})
 }
 

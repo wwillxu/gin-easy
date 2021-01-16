@@ -1,27 +1,49 @@
 package config
 
 import (
-	"github.com/joho/godotenv"
+	"fmt"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
 	"log"
-	"os"
 )
 
 var (
-	// 数据库参数
-	DatabaseURI  string
-	DatabaseName string
-	JwtKey       string
+	Conf *Config
 )
 
+type Config struct {
+	App app  `yaml:"app"`
+	DB  db   `yaml:"db"`
+	JWT jwt  `yaml:"jwt"`
+	Dev bool `yaml:"dev"`
+}
+
+type app struct {
+	//Mode string `yaml:"mode"`
+	Port string `yaml:"port"`
+}
+
+type db struct {
+	URI  string `yaml:"uri"`
+	Name string `yaml:"name"`
+}
+
+type jwt struct {
+	Secret string `yaml:"secret"`
+}
+
 func init() {
-	// 加载配置文件
-	err := godotenv.Load("./config/.env")
+	configFile := "example.yml"
+	data, err := ioutil.ReadFile(fmt.Sprintf("config/%s", configFile))
+
+	config := &Config{}
+	err = yaml.Unmarshal(data, config)
 	if err != nil {
 		log.Fatal("Error loading config.env file", err)
 	}
 
-	// 加载配置文件
-	DatabaseURI = os.Getenv("DATABASE_URI")
-	DatabaseName = os.Getenv("DATABASE_NAME")
-	JwtKey = os.Getenv("JWT_KEY")
+	Conf = config
+	if Conf.Dev {
+		log.Println("[INFO] app running at dev mode")
+	}
 }

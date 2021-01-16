@@ -1,0 +1,11 @@
+app:
+  port: ":8080"
+
+db:
+  url: "mongodb://root:1234@localhost:27017"
+  name: "gin-easy"
+
+jwt:
+  secret: "gin-easy"
+
+dev: true

@@ -24,7 +24,7 @@ const (
 func init() {
 	// 连接数据库
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(config.DatabaseURI))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(config.Conf.DB.URI))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,7 +35,7 @@ func init() {
 		log.Fatal(err)
 	}
 	// 打开/创建数据库
-	db := client.Database(config.DatabaseName)
+	db := client.Database(config.Conf.DB.Name)
 	// 创建集合
 	UserColl = db.Collection("user")
 }
