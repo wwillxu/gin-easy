@@ -1,7 +1,6 @@
 package user
 
 import (
-	"gin-easy/config"
 	"gin-easy/models"
 	"gin-easy/utils"
 	"gin-easy/views"
@@ -23,7 +22,7 @@ func (service *LoginReq) Login() (interface{}, int) {
 		return nil, views.ErrLogin
 	}
 	// 生成token
-	token, err := utils.GenerateToken(user.ID, []byte(config.JwtKey))
+	token, err := utils.GenerateToken(user.ID)
 	if err != nil {
 		log.Println(err)
 		return nil, views.ErrServer
