@@ -1,4 +1,4 @@
-/.idea/
-/config/.env
-/test/
+.idea/
+config/.env
+test/
 go.sum
