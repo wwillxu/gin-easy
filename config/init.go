@@ -12,24 +12,23 @@ var (
 )
 
 type Config struct {
-	App app  `yaml:"app"`
-	DB  db   `yaml:"db"`
-	JWT jwt  `yaml:"jwt"`
-	Dev bool `yaml:"dev"`
+	App app
+	DB  db
+	JWT jwt
+	Dev bool
 }
 
 type app struct {
-	//Mode string `yaml:"mode"`
-	Port string `yaml:"port"`
+	Port string
 }
 
 type db struct {
-	URI  string `yaml:"uri"`
-	Name string `yaml:"name"`
+	URI  string
+	Name string
 }
 
 type jwt struct {
-	Secret string `yaml:"secret"`
+	Secret string
 }
 
 func init() {
