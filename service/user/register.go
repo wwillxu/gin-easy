@@ -1,10 +1,9 @@
 package user
 
 import (
+	"errors"
 	"gin-easy/models"
-	"gin-easy/utils"
-	"gin-easy/views"
-	"go.mongodb.org/mongo-driver/bson"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 )
 
@@ -15,22 +14,24 @@ type RegisterReq struct {
 	Telephone string `binding:"required"`
 }
 
-func (service *RegisterReq) Register() int {
+func (service *RegisterReq) Register() error {
 	// 检查用户名合法性
-	_, err := models.UserFindOne(bson.M{"status": models.Normal, "username": service.Username})
+	_, err := models.UserFindOneByName(service.Username)
 	if err == nil {
-		return views.ErrUserExist
+		return errors.New("user exist")
 	}
+	// 密码加密
+	pwd, _ := bcrypt.GenerateFromPassword([]byte(service.Password), bcrypt.DefaultCost)
 	// 用户信息注册
 	_, err = models.UserInsertOne(models.User{
 		Username:  service.Username,
-		Password:  utils.String2md5(service.Password),
+		Password:  string(pwd),
 		Telephone: service.Telephone,
 		Email:     service.Email,
 	})
 	if err != nil {
 		log.Println(err)
-		return views.ErrServer
+		return err
 	}
-	return views.Success
+	return nil
 }

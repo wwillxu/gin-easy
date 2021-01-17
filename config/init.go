@@ -19,7 +19,8 @@ type Config struct {
 }
 
 type app struct {
-	Port string
+	Port   string
+	Prefix string
 }
 
 type db struct {

@@ -1,5 +1,6 @@
 app:
   port: ":8080"
+  prefix: "/api/v1"
 
 db:
   uri: "mongodb://root:1234@localhost:27017"

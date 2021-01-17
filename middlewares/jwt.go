@@ -3,10 +3,9 @@ package middlewares
 import (
 	"errors"
 	"gin-easy/config"
-	"gin-easy/views"
+	"gin-easy/utils/context"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"strings"
 	"time"
 )
@@ -36,12 +35,12 @@ func Jwt() gin.HandlerFunc {
 func jwtFun(c *gin.Context) {
 	claims, err := GetClaimsFromJWT(c)
 	if err != nil {
-		unauthorized(c, err.Error())
+		unauthorized(c, err)
 		return
 	}
 
 	if int64(claims["exp"].(float64)) < time.Now().Unix() {
-		unauthorized(c, ErrExpiredToken.Error())
+		unauthorized(c, ErrExpiredToken)
 		return
 	}
 
@@ -93,11 +92,7 @@ func jwtFromHeader(c *gin.Context, key string) (string, error) {
 }
 
 // 错误信息返回
-func unauthorized(c *gin.Context, err string) {
-	c.JSON(http.StatusOK, errResponse(err))
+func unauthorized(c *gin.Context, err error) {
+	context.Error(c, err)
 	c.Abort()
-}
-
-func errResponse(err string) interface{} {
-	return views.BasicResponse(4030, "[Auth Error] "+err, nil)
 }

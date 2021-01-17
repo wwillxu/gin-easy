@@ -2,9 +2,7 @@ package user
 
 import (
 	"gin-easy/models"
-	"gin-easy/views"
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 )
@@ -13,30 +11,23 @@ type BasicReq struct {
 	ID primitive.ObjectID
 }
 
-func (service *BasicReq) GetProfile() (interface{}, int) {
-	filter := bson.M{"status": models.Normal, "_id": service.ID}
-	res, err := models.UserFindOne(filter)
+func (service *BasicReq) GetProfile() (interface{}, error) {
+	res, err := models.UserFindOneByID(service.ID)
 	if err != nil {
-		if err.Error() == models.NotExist {
-			return nil, views.ErrUserNotExist
-		}
-		log.Println(err)
-		return nil, views.ErrServer
+		return nil, err
 	}
 	return gin.H{
 		"username":  res.Username,
 		"telephone": res.Telephone,
 		"email":     res.Email,
-	}, views.Success
+	}, nil
 }
 
-func (service *BasicReq) Delete() int {
-	filter := bson.M{"_id": service.ID}
-	update := bson.M{"status": models.Deleted}
-	err := models.UserUpdateOneOfSet(filter, update)
+func (service *BasicReq) Delete() error {
+	err := models.UserUpdateOneSetStatus(service.ID, -1)
 	if err != nil {
 		log.Println(err)
-		return views.ErrServer
+		return err
 	}
-	return views.Success
+	return nil
 }

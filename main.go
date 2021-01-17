@@ -1,9 +1,9 @@
 package main
 
 import (
-	api "gin-easy/controllers"
+	"gin-easy/config"
 	"gin-easy/middlewares"
-	//"github.com/gin-contrib/pprof"
+	"gin-easy/routers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,25 +11,19 @@ func main() {
 	// 路由注册
 	r := gin.Default()
 
-	// 性能检测
-	// pprof.Register(r)
-
-	// 全局跨域中间件
+	// 跨域中间件
 	r.Use(middlewares.Cors())
 
-	// 业务路由
-	v1 := r.Group("/api/v1")
-	v1.POST("/register", api.UserRegisterHandler)
-	v1.POST("/login", api.UserLoginHandler)
+	// 基本路由
+	index := r.Group(config.Conf.App.Prefix)
+	routers.IndexRouters(index)
 
 	// jwt中间件
-	v1.Use(middlewares.Jwt())
+	index.Use(middlewares.Jwt())
 
-	// 需要鉴权的业务路由
-	user := v1.Group("/user")
-	user.GET("", api.UserGetMeHandler)
-	user.DELETE("", api.UserDeleteHandler)
+	// 用户路由
+	routers.UserRouters(index)
 
 	// 监听端口
-	r.Run()
+	r.Run(config.Conf.App.Port)
 }

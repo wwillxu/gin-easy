@@ -1,12 +1,11 @@
 package user
 
 import (
+	"errors"
 	"gin-easy/models"
 	"gin-easy/utils"
-	"gin-easy/views"
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/bson"
-	"log"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type LoginReq struct {
@@ -14,18 +13,18 @@ type LoginReq struct {
 	Password string `binding:"required"`
 }
 
-func (service *LoginReq) Login() (interface{}, int) {
+func (service *LoginReq) Login() (interface{}, error) {
 	// 登陆信息校验
-	psw := utils.String2md5(service.Password)
-	user, err := models.UserFindOne(bson.M{"status": models.Normal, "username": service.Username, "password": psw})
+	user, err := models.UserFindOneByName(service.Username)
 	if err != nil {
-		return nil, views.ErrLogin
+		return nil, err
+	}
+	// 身份校验
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(service.Password))
+	if err != nil {
+		return nil, errors.New("wrong password")
 	}
 	// 生成token
-	token, err := utils.GenerateToken(user.ID)
-	if err != nil {
-		log.Println(err)
-		return nil, views.ErrServer
-	}
-	return gin.H{"token": token}, views.Success
+	token, _ := utils.GenerateToken(user.ID)
+	return gin.H{"token": token}, nil
 }

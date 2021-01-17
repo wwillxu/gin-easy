@@ -12,15 +12,6 @@ import (
 
 var UserColl *mongo.Collection
 
-const (
-	// 查询不存在
-	NotExist = "mongo: no documents in result"
-
-	// 单条文档状态
-	Normal  = 1
-	Deleted = 0
-)
-
 func init() {
 	// 连接数据库
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
