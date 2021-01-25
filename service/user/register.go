@@ -8,10 +8,10 @@ import (
 )
 
 type RegisterReq struct {
-	Username  string `binding:"required"`
-	Password  string `binding:"required"`
-	Email     string `binding:"required"`
-	Telephone string `binding:"required"`
+	Username  string `json:"username" binding:"required"`
+	Password  string `json:"password" binding:"required"`
+	Email     string `json:"email" binding:"required"`
+	Telephone string `json:"telephone" binding:"required"`
 }
 
 func (service *RegisterReq) Register() error {

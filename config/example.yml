@@ -4,9 +4,7 @@ app:
 
 db:
   uri: "mongodb://root:1234@localhost:27017"
-  name: "gin-easy"
+  name: "example"
 
 jwt:
-  secret: "gin-easy"
-
-dev: true
+  secret: "example"

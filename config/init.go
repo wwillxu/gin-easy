@@ -12,24 +12,23 @@ var (
 )
 
 type Config struct {
-	App app
-	DB  db
-	JWT jwt
-	Dev bool
+	App app `yaml:"app"`
+	DB  db  `yaml:"db"`
+	JWT jwt `yaml:"jwt"`
 }
 
 type app struct {
-	Port   string
-	Prefix string
+	Port   string `yaml:"port"`
+	Prefix string `yaml:"prefix"`
 }
 
 type db struct {
-	URI  string
-	Name string
+	URI  string `yaml:"uri"`
+	Name string `yaml:"name"`
 }
 
 type jwt struct {
-	Secret string
+	Secret string `yaml:"secret"`
 }
 
 func init() {
@@ -43,7 +42,4 @@ func init() {
 	}
 
 	Conf = config
-	if Conf.Dev {
-		log.Println("[INFO] app running at dev mode")
-	}
 }
